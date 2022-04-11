@@ -1,7 +1,9 @@
 package pt.diogopm.plugins
 
 import io.ktor.http.*
+import io.ktor.http.content.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.cachingheaders.*
 import io.ktor.server.plugins.cors.*
 import io.ktor.server.plugins.defaultheaders.*
 
@@ -17,13 +19,13 @@ fun Application.configureHTTP() {
         allowHeader(HttpHeaders.Authorization)
         anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
     }
-    /*install(CachingHeaders) {
-        options { outgoingContent ->
+    install(CachingHeaders) {
+        options { call, outgoingContent ->
             when (outgoingContent.contentType?.withoutParameters()) {
                 ContentType.Text.CSS -> CachingOptions(CacheControl.MaxAge(maxAgeSeconds = 24 * 60 * 60))
                 else -> null
             }
         }
-    }*/
+    }
 
 }
